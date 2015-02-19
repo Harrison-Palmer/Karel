@@ -18,5 +18,5 @@ void putbeeper()
 }
 void pickbeeper()
 {
-	gdgds
+	
 }
