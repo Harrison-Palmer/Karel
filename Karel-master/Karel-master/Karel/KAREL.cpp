@@ -1,22 +1,26 @@
 #include "KAREL.h"
+using namespace std;
+using namespace System;
+#include <Application>
 
-void move()
+int kural::move()
 {
-
+	return 5;
 }
-void turnleft()
+void kural::turnleft()
 {
-
+	return;
 }
-void turnoff()
+void kural::turnoff()
 {
-
+	//Application::Exit();
+	applica
 }
-void putbeeper()
+void kural::putbeeper()
 {
-
+	return;
 }
-void pickbeeper()
-{
-	gdgds
+void kural::pickbeeper()
+{return;
+	
 }

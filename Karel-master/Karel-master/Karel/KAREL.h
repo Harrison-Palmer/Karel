@@ -1,10 +1,11 @@
-#include "MyForm.h"
-#define ICON_H
+#pragma once
+
+
 
 public ref class kural{
 
 public:
-	void move();
+	int move();
 	void turnleft();
 	void turnoff();
 	void putbeeper();
