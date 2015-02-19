@@ -20,7 +20,12 @@ void kural::putbeeper()
 {
 	return;
 }
+<<<<<<< HEAD
 void kural::pickbeeper()
 {return;
+=======
+void pickbeeper()
+{
+>>>>>>> origin/master
 	
 }
