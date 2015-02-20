@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 public ref class kural{
 
 public:

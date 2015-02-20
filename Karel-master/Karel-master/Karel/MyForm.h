@@ -42,12 +42,10 @@ namespace Project1 {
 	private: System::Windows::Forms::ToolStripMenuItem^  aboutToolStripMenuItem;
 	private: System::Windows::Forms::MenuStrip^  menuStrip1;
 	private: System::Windows::Forms::ToolStripMenuItem^  exitToolStripMenuItem;
-			 kural robot;
+
+		kural robot;
 
 	protected:
-
-
-
 
 	protected:
 
@@ -68,9 +66,9 @@ namespace Project1 {
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
 			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->restartToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
-			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -98,6 +96,14 @@ namespace Project1 {
 			this->restartToolStripMenuItem->Name = L"restartToolStripMenuItem";
 			this->restartToolStripMenuItem->Size = System::Drawing::Size(152, 22);
 			this->restartToolStripMenuItem->Text = L"Restart";
+			this->restartToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::restartToolStripMenuItem_Click);
+			// 
+			// exitToolStripMenuItem
+			// 
+			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
+			this->exitToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->exitToolStripMenuItem->Text = L"Exit";
+			this->exitToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::exitToolStripMenuItem_Click);
 			// 
 			// aboutToolStripMenuItem
 			// 
@@ -117,13 +123,6 @@ namespace Project1 {
 			this->menuStrip1->TabIndex = 0;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
-			// exitToolStripMenuItem
-			// 
-			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
-			this->exitToolStripMenuItem->Size = System::Drawing::Size(152, 22);
-			this->exitToolStripMenuItem->Text = L"Exit";
-			this->exitToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::exitToolStripMenuItem_Click);
-			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -141,17 +140,16 @@ namespace Project1 {
 
 		}
 #pragma endregion
-		//Graphics ^ g;
+		Graphics ^ g;
 		//Pen^ brackPen;
-		//array <kural^, 2>^ grid;
-
-		
+		array <kural^, 2>^ grid;
+		Bitmap^ bmp = gcnew Bitmap("C:\\Users\\hpalmer\\Documents\\GitHub\\CS114\\Karel-master\\Karel-master\\Karel\\doge.bmp");
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
-		//g = panel1->CreateGraphics();
+		g = panel1->CreateGraphics();
 		//brackPen = gcnew System::Drawing::Pen(Color::Black);
 
-		//grid = gcnew array<kural^, 2>(3, 3);
+		grid = gcnew array<kural^, 2>(3, 3);
 
 		//g->DrawRectangle(brackPen, gridRect);	//gridRect is an object that is the cell of the array
 
@@ -162,8 +160,15 @@ namespace Project1 {
 
 private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
 			 
+			g->DrawImage(bmp, 0, 0, 50, 50);
+			 
+			// panel1->DrawToBitmap(bmp, panel1->ClientRectangle);
+
 }
 private: System::Void exitToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			 robot.turnoff();
+}
+private: System::Void restartToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 robot.turnoff();
 }
 };

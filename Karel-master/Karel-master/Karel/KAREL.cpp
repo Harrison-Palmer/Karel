@@ -1,7 +1,7 @@
 #include "KAREL.h"
 using namespace std;
-using namespace System;
-#include <Application>
+using namespace System::Windows::Forms;
+//#include <Application>
 
 int kural::move()
 {
@@ -13,19 +13,17 @@ void kural::turnleft()
 }
 void kural::turnoff()
 {
-	//Application::Exit();
-	applica
+	Application::Exit();
 }
 void kural::putbeeper()
 {
-	return;
+	
 }
-<<<<<<< HEAD
 void kural::pickbeeper()
-{return;
-=======
+{
+
+}
 void pickbeeper()
 {
->>>>>>> origin/master
 	
 }
