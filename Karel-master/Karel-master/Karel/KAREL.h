@@ -8,5 +8,6 @@ public:
 	void turnoff();
 	void putbeeper();
 	void pickbeeper();
+	string getFile();
 
 };
