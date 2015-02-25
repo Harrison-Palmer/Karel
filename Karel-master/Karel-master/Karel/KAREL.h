@@ -1,4 +1,7 @@
 #pragma once
+#include <cstring>
+#include <string>
+using namespace std;
 
 public ref class kural{
 
@@ -9,5 +12,4 @@ public:
 	void putbeeper();
 	void pickbeeper();
 	string getFile();
-
 };

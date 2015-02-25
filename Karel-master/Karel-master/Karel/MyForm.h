@@ -145,6 +145,7 @@ namespace Project1 {
 		Graphics ^ g;
 		Pen^ brackPen;
 		array <kural^, 2>^ grid;
+		kural kirel;
 		Bitmap^ bmp = gcnew Bitmap("C:\\Users\\hpalmer\\Desktop\\Image.gif");
 		Rectangle gridRect = Rectangle(0, 0, 150, 150);	//Cellsize is the number pixels in a cell
 
@@ -159,6 +160,8 @@ private: System::Void panel1_Paint(System::Object^  sender, System::Windows::For
 			 brackPen = gcnew System::Drawing::Pen(Color::Black); 
 			 g->DrawRectangle(brackPen, gridRect);	//draws the rectangle
 			 g->DrawImage(bmp, gridRect); // draws the thing in the rectang;le
+			 MessageBox::Show("" + kirel.getFile());
+			 
 			
 }
 private: System::Void exitToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
