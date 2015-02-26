@@ -164,6 +164,30 @@ namespace Project1 {
 		kural kirel;
 		Bitmap^ bmp = gcnew Bitmap("C:\\Users\\hpalmer\\Desktop\\Image.gif");
 		Rectangle gridRect = Rectangle(0, 0, 150, 150);	//Cellsize is the number pixels in a cell
+		
+		//item quantity
+		int num_avenues;
+		int num_streets;
+		int num_beepers;
+
+		//item ave
+		int beeper_ave;
+		int wall_ave;
+		int robot_ave;
+
+		//item street
+		int beeper_street;
+		int wall_street;
+		int robot_street;
+
+		//item direction
+		int wall_direction;
+		int robot_direction;
+
+		String^ str = gcnew String(kirel.getFile(0, 1).c_str());
+		String^ str2 = gcnew String(kirel.getFile(0, 2).c_str());
+		String^ str3 = gcnew String(kirel.getFile(0, 3).c_str());
+		String^ str4 = gcnew String(kirel.getFile(0, 4).c_str());
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 				 /*
@@ -177,10 +201,6 @@ private: System::Void panel1_Paint(System::Object^  sender, System::Windows::For
 			 g->DrawRectangle(brackPen, gridRect);	//draws the rectangle
 			 g->DrawImage(bmp, gridRect); // draws the thing in the rectang;le
 
-			 String^ str = gcnew String(kirel.getFile(0, 1).c_str());
-			 String^ str2 = gcnew String(kirel.getFile(0, 2).c_str());
-			 String^ str3 = gcnew String(kirel.getFile(0, 3).c_str());
-			 String^ str4 = gcnew String(kirel.getFile(0, 4).c_str());
 			 textBox1->Text = str + "\r\n" + str2 + "\r\n" + str3 + "\r\n" + str4;
 }
 private: System::Void exitToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
