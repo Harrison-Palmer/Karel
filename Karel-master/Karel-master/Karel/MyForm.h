@@ -44,6 +44,9 @@ namespace Project1 {
 	private: System::Windows::Forms::ToolStripMenuItem^  exitToolStripMenuItem;
 
 		kural robot;
+	private: System::Windows::Forms::TextBox^  textBox1;
+
+
 
 
 
@@ -66,22 +69,33 @@ namespace Project1 {
 		void InitializeComponent(void)
 		{
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
+			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->restartToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
+			this->panel1->SuspendLayout();
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// panel1
 			// 
 			this->panel1->BackColor = System::Drawing::SystemColors::ActiveCaption;
+			this->panel1->Controls->Add(this->textBox1);
 			this->panel1->Location = System::Drawing::Point(12, 27);
 			this->panel1->Name = L"panel1";
 			this->panel1->Size = System::Drawing::Size(400, 400);
 			this->panel1->TabIndex = 1;
 			this->panel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::panel1_Paint);
+			// 
+			// textBox1
+			// 
+			this->textBox1->Location = System::Drawing::Point(153, 125);
+			this->textBox1->Multiline = true;
+			this->textBox1->Name = L"textBox1";
+			this->textBox1->Size = System::Drawing::Size(100, 63);
+			this->textBox1->TabIndex = 1;
 			// 
 			// fileToolStripMenuItem
 			// 
@@ -135,6 +149,8 @@ namespace Project1 {
 			this->MainMenuStrip = this->menuStrip1;
 			this->Name = L"MyForm";
 			this->Text = L"MyForm";
+			this->panel1->ResumeLayout(false);
+			this->panel1->PerformLayout();
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
 			this->ResumeLayout(false);
@@ -160,16 +176,18 @@ private: System::Void panel1_Paint(System::Object^  sender, System::Windows::For
 			 brackPen = gcnew System::Drawing::Pen(Color::Black); 
 			 g->DrawRectangle(brackPen, gridRect);	//draws the rectangle
 			 g->DrawImage(bmp, gridRect); // draws the thing in the rectang;le
-			 MessageBox::Show("" + kirel.getFile());
-			 
-			
+
+			 String^ str = gcnew String(kirel.getFile(0, 1).c_str());
+			 String^ str2 = gcnew String(kirel.getFile(0, 2).c_str());
+			 String^ str3 = gcnew String(kirel.getFile(0, 3).c_str());
+			 String^ str4 = gcnew String(kirel.getFile(0, 4).c_str());
+			 textBox1->Text = str + "\r\n" + str2 + "\r\n" + str3 + "\r\n" + str4;
 }
 private: System::Void exitToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 robot.turnoff();
 }
 private: System::Void restartToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 //robot.turnoff();
-			 
+			 //robot.turnoff();			 
 }
 };
 }

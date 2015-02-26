@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <conio.h>
 using namespace std;
 using namespace System::Windows::Forms;
 //#include <Application>
@@ -26,20 +27,15 @@ void kural::pickbeeper()
 {
 
 }
-string kural::getFile()
+string kural::getFile(int start, int end)
 {
-	ifstream a_file("Swag.txt");
-
+	ifstream a_file;
+	string strInput;
 	a_file.open("Swag.txt");
 
-	//a_file.open("Swag.txt");
-	std::string strInput;
-
-	while (!a_file.eof) // To get you all the lines.
+	for (int i = start; i < end; i++)
 	{
-		getline(a_file, strInput); // Saves the line in STRING.
-		//cout << STRING; // Prints our STRING.
+		getline(a_file, strInput);
 	}
-
 	return strInput;
 }
