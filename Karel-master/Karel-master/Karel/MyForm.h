@@ -44,7 +44,7 @@ namespace Project1 {
 	private: System::Windows::Forms::ToolStripMenuItem^  exitToolStripMenuItem;
 
 		kural robot;
-	private: System::Windows::Forms::TextBox^  textBox1;
+
 	private: System::Windows::Forms::Button^  button1;
 
 
@@ -71,7 +71,6 @@ namespace Project1 {
 		{
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
 			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->restartToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -85,7 +84,6 @@ namespace Project1 {
 			// 
 			this->panel1->BackColor = System::Drawing::SystemColors::ActiveCaption;
 			this->panel1->Controls->Add(this->button1);
-			this->panel1->Controls->Add(this->textBox1);
 			this->panel1->Location = System::Drawing::Point(12, 27);
 			this->panel1->Name = L"panel1";
 			this->panel1->Size = System::Drawing::Size(400, 400);
@@ -102,14 +100,6 @@ namespace Project1 {
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
 			// 
-			// textBox1
-			// 
-			this->textBox1->Location = System::Drawing::Point(156, 3);
-			this->textBox1->Multiline = true;
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(100, 83);
-			this->textBox1->TabIndex = 1;
-			// 
 			// fileToolStripMenuItem
 			// 
 			this->fileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
@@ -123,14 +113,14 @@ namespace Project1 {
 			// restartToolStripMenuItem
 			// 
 			this->restartToolStripMenuItem->Name = L"restartToolStripMenuItem";
-			this->restartToolStripMenuItem->Size = System::Drawing::Size(110, 22);
+			this->restartToolStripMenuItem->Size = System::Drawing::Size(152, 22);
 			this->restartToolStripMenuItem->Text = L"Restart";
 			this->restartToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::restartToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
-			this->exitToolStripMenuItem->Size = System::Drawing::Size(110, 22);
+			this->exitToolStripMenuItem->Size = System::Drawing::Size(152, 22);
 			this->exitToolStripMenuItem->Text = L"Exit";
 			this->exitToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::exitToolStripMenuItem_Click);
 			// 
@@ -163,7 +153,6 @@ namespace Project1 {
 			this->Name = L"MyForm";
 			this->Text = L"MyForm";
 			this->panel1->ResumeLayout(false);
-			this->panel1->PerformLayout();
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
 			this->ResumeLayout(false);
@@ -178,9 +167,13 @@ namespace Project1 {
 		Bitmap^ rekt = gcnew Bitmap("C:\\Users\\hpalmer\\Desktop\\Image.gif");
 		Bitmap^ doge = gcnew Bitmap("doge.bmp");
 
+		//image location
 		int Xx = 0;
 		int Yy = 0;
 
+		//grid size
+		int X = 0;
+		int Y = 0;
 		
 
 		//item quantity
@@ -209,20 +202,37 @@ namespace Project1 {
 		String^ str3 = gcnew String(kirel.getFile(0, 3).c_str());
 		String^ str4 = gcnew String(kirel.getFile(0, 4).c_str());
 
+	//	if (str)
+		//	std::string token = s.substr(0, s.find(delimiter));
+
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 				 /*
 				 *!DONT PUT ANYTHING IN HERE!*
 				 */
 	}
 
+			 private: void fillGrid()
+			 {
+						  for (int i = 0; i < 8; i++)
+						  {
+							  for (int j = 0; j < 8; j++)
+							  {
+								  g->DrawImage(rekt, X, Y, 40, 40);
+								  Y += 40;
+							  }
+							  X += 40;
+						  }
+			 }
+
 private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
 			 g = panel1->CreateGraphics();
-			 brackPen = gcnew System::Drawing::Pen(Color::Black); 
+			 brackPen = gcnew System::Drawing::Pen(Color::Black);
+			 fillGrid();
 			 g->DrawImage(rekt, Xx, Yy, 40, 40);
 			 g->DrawRectangle(brackPen, gridRect);	//draws the rectangle
-			 g->DrawImage(rekt, gridRect); // draws the thing in the rectang;le
+			 g->DrawImage(rekt, gridRect); // draws the thing in the rectangle
 
-			 textBox1->Text = str + "\r\n" + str2 + "\r\n" + str3 + "\r\n" + str4 + "\r\n" + Yy;
+			// textBox1->Text = str + "\r\n" + str2 + "\r\n" + str3 + "\r\n" + str4 + "\r\n" + Yy;
 }
 private: System::Void exitToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 robot.turnoff();
