@@ -92,7 +92,7 @@ namespace Project1 {
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(146, 244);
+			this->button1->Location = System::Drawing::Point(140, 354);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(75, 23);
 			this->button1->TabIndex = 2;
@@ -113,14 +113,14 @@ namespace Project1 {
 			// restartToolStripMenuItem
 			// 
 			this->restartToolStripMenuItem->Name = L"restartToolStripMenuItem";
-			this->restartToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->restartToolStripMenuItem->Size = System::Drawing::Size(110, 22);
 			this->restartToolStripMenuItem->Text = L"Restart";
 			this->restartToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::restartToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
-			this->exitToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->exitToolStripMenuItem->Size = System::Drawing::Size(110, 22);
 			this->exitToolStripMenuItem->Text = L"Exit";
 			this->exitToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::exitToolStripMenuItem_Click);
 			// 
@@ -165,7 +165,7 @@ namespace Project1 {
 		array <kural^, 2>^ grid;
 		kural kirel;
 		Bitmap^ rekt = gcnew Bitmap("C:\\Users\\hpalmer\\Desktop\\Image.gif");
-		Bitmap^ doge = gcnew Bitmap("doge.bmp");
+		Bitmap^ Cells = gcnew Bitmap("C:\\Users\\hpalmer\\Documents\\GitHub\\CS114\\Karel-master\\Karel-master\\Karel\\Cell.png");
 
 		//image location
 		int Xx = 0;
@@ -210,28 +210,31 @@ namespace Project1 {
 				 *!DONT PUT ANYTHING IN HERE!*
 				 */
 	}
-
+			 //draws cells, starts at top left, goes down, moves right
 			 private: void fillGrid()
 			 {
-						  for (int i = 0; i < 8; i++)
+						  for (int i = 0; i < 9; i++)
 						  {
 							  for (int j = 0; j < 8; j++)
 							  {
-								  g->DrawImage(rekt, X, Y, 40, 40);
+								  //draws image, goes down 1
+								  g->DrawImage(Cells, X, Y, 40, 40);
 								  Y += 40;
 							  }
+							  //goes back to top and moves right 1
 							  X += 40;
+							  Y = 0;
 						  }
+						  
 			 }
-
 private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
 			 g = panel1->CreateGraphics();
 			 brackPen = gcnew System::Drawing::Pen(Color::Black);
 			 fillGrid();
-			 g->DrawImage(rekt, Xx, Yy, 40, 40);
-			 g->DrawRectangle(brackPen, gridRect);	//draws the rectangle
-			 g->DrawImage(rekt, gridRect); // draws the thing in the rectangle
-
+			// g->DrawImage(rekt, Xx, Yy, 40, 40);
+			// g->DrawRectangle(brackPen, gridRect);	//draws the rectangle
+			// g->DrawImage(rekt, gridRect); // draws the thing in the rectangle
+			 
 			// textBox1->Text = str + "\r\n" + str2 + "\r\n" + str3 + "\r\n" + str4 + "\r\n" + Yy;
 }
 private: System::Void exitToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
