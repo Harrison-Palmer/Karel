@@ -46,6 +46,8 @@ namespace Project1 {
 		kural robot;
 
 	private: System::Windows::Forms::Button^  button1;
+	private: System::Windows::Forms::Timer^  timer1;
+	private: System::ComponentModel::IContainer^  components;
 
 
 
@@ -60,7 +62,7 @@ namespace Project1 {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -69,6 +71,7 @@ namespace Project1 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -76,6 +79,7 @@ namespace Project1 {
 			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
+			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->panel1->SuspendLayout();
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
@@ -142,6 +146,10 @@ namespace Project1 {
 			this->menuStrip1->TabIndex = 0;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
+			// timer1
+			// 
+			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -160,14 +168,20 @@ namespace Project1 {
 
 		}
 #pragma endregion
-		Graphics ^ g;
+		Graphics^ g, ^gbmp;
+
 		Pen^ brackPen;
 		array <kural^, 2>^ grid;
 		kural kirel;
+		Bitmap ^view; // image to draw stuff to
 		Bitmap^ rekt = gcnew Bitmap("C:\\Users\\hpalmer\\Desktop\\Image.gif");
+		Bitmap^ Beeper = gcnew Bitmap("C:\\Users\\hpalmer\\Documents\\GitHub\\CS114\\Karel-master\\Karel-master\\Karel\\Beeper.png");
+		Bitmap^ Karel_bot = gcnew Bitmap("C:\\Users\\hpalmer\\Documents\\GitHub\\CS114\\Karel-master\\Karel-master\\Karel\\Gumby.png");
 		Bitmap^ Cells = gcnew Bitmap("C:\\Users\\hpalmer\\Documents\\GitHub\\CS114\\Karel-master\\Karel-master\\Karel\\Cell.png");
 
-		//image location
+		int panelWidth, panelHeight; // width and height of panel1
+
+		//grid image location
 		int Xx = 0;
 		int Yy = 0;
 
@@ -175,7 +189,6 @@ namespace Project1 {
 		int X = 0;
 		int Y = 0;
 		
-
 		//item quantity
 		int num_avenues;
 		int num_streets;
@@ -195,47 +208,88 @@ namespace Project1 {
 		int wall_direction;
 		int robot_direction;
 
+		//robot's current number of beepers
+		int robot_beepers;
+
 		Rectangle gridRect;
-
-		String^ str = gcnew String(kirel.getFile(0, 1).c_str());
-		String^ str2 = gcnew String(kirel.getFile(0, 2).c_str());
-		String^ str3 = gcnew String(kirel.getFile(0, 3).c_str());
-		String^ str4 = gcnew String(kirel.getFile(0, 4).c_str());
-
-	//	if (str)
-		//	std::string token = s.substr(0, s.find(delimiter));
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 				 /*
 				 *!DONT PUT ANYTHING IN HERE!*
 				 */
+				 panelWidth = panel1->Width; // set panelWidth
+				 panelHeight = panel1->Height; // set panelHeight
+				 //Xx = 0; // set original x location of Jared
+				 //Yy = 0; // set original y location of Jared
+
+				 // Create a Bitmap object to create gbmp out of
+				 view = gcnew Bitmap(panelWidth, panelHeight, System::Drawing::Imaging::PixelFormat::Format32bppArgb);
+
+				 // Create a Bitmap object to hold the jared icon
+				// jared = gcnew Bitmap("Jared.bmp");
+
+
+				 //g = panel1->CreateGraphics(); // create Graphics g on panel1
+				 gbmp = Graphics::FromImage(view); // create Graphics gbmp from view
 	}
 			 //draws cells, starts at top left, goes down, moves right
-			 private: void fillGrid()
+			 private: void drawGrid()
 			 {
 						  for (int i = 0; i < 9; i++)
 						  {
 							  for (int j = 0; j < 8; j++)
 							  {
 								  //draws image, goes down 1
-								  g->DrawImage(Cells, X, Y, 40, 40);
-								  Y += 40;
+								  g->DrawImage(Cells, Xx, Yy, 40, 40);
+								  Yy += 40;
 							  }
 							  //goes back to top and moves right 1
-							  X += 40;
-							  Y = 0;
+							  Xx += 40;
+							  Yy = 0;
 						  }
-						  
 			 }
-private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
+			// function to clear <view>
+			private: System::Void clearView()
+			{
+				 Rectangle clearer = Rectangle(0, 0, view->Width, view->Height); // create a rectangle object that covers the "view" bitmap
+				 gbmp->DrawRectangle(Pens::White, clearer); // draw the rectangle to gbmp
+				 gbmp->FillRectangle(Brushes::White, clearer); //  fill the rectangle with white
+				 return;
+			}
+			// function to update the graphics on every timer tick
+			private: System::Void updateGraphics()
+			{
+				 clearView();
+				 gbmp->DrawImage(Cells, Xx, Yy); // add "jared" image to gbmp (auto adds to the "view" bitmap)
+				 panel1->Refresh(); // clear panel1
+				 g->DrawImage(view, Point(0, 0)); // draw the "view" image to g (which is on panel1)
+			}
+			//places beepers at designated locations
+			private: void drawBeepers()
+			{
+						 for (int i = 0; i < num_beepers; i++)
+						 {
+							 g->DrawImage(Beeper, beeper_ave, beeper_street, 40, 40);
+						 }
+			}
+			//draws a wall at specified location and direction
+			private: void drawWall()
+			{
+						 g->DrawImage(rekt, wall_ave, wall_street, 40, 40);
+			}
+			//places karel in the world with location, direction, and number of beepers indicated
+			private: void drawRobot()
+			{
+						g->DrawImage(Karel_bot, robot_ave, robot_street, 40, 40);
+			}
+
+private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {		 
 			 g = panel1->CreateGraphics();
 			 brackPen = gcnew System::Drawing::Pen(Color::Black);
-			 fillGrid();
-			// g->DrawImage(rekt, Xx, Yy, 40, 40);
-			// g->DrawRectangle(brackPen, gridRect);	//draws the rectangle
-			// g->DrawImage(rekt, gridRect); // draws the thing in the rectangle
-			 
-			// textBox1->Text = str + "\r\n" + str2 + "\r\n" + str3 + "\r\n" + str4 + "\r\n" + Yy;
+			// Refresh();
+			 drawGrid();
+			// g->DrawImage(rekt, 40, 40, 40, 40);
+			 //Refresh();
 }
 private: System::Void exitToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 robot.turnoff();
@@ -247,6 +301,9 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			 Refresh();
 			 Yy += 40;
 			 Refresh();
+}
+private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
+			 updateGraphics(); // run above function
 }
 };
 }
