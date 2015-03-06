@@ -47,6 +47,8 @@ namespace Project1 {
 
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::Timer^  timer1;
+	private: System::Windows::Forms::PictureBox^  pictureBox1;
+
 	private: System::ComponentModel::IContainer^  components;
 
 
@@ -80,15 +82,17 @@ namespace Project1 {
 			this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
+			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->panel1->SuspendLayout();
 			this->menuStrip1->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// panel1
 			// 
 			this->panel1->BackColor = System::Drawing::SystemColors::ActiveCaption;
 			this->panel1->Controls->Add(this->button1);
-			this->panel1->Location = System::Drawing::Point(12, 27);
+			this->panel1->Location = System::Drawing::Point(471, 82);
 			this->panel1->Name = L"panel1";
 			this->panel1->Size = System::Drawing::Size(400, 400);
 			this->panel1->TabIndex = 1;
@@ -142,7 +146,7 @@ namespace Project1 {
 			});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(426, 24);
+			this->menuStrip1->Size = System::Drawing::Size(900, 24);
 			this->menuStrip1->TabIndex = 0;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -150,11 +154,20 @@ namespace Project1 {
 			// 
 			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
 			// 
+			// pictureBox1
+			// 
+			this->pictureBox1->Location = System::Drawing::Point(12, 82);
+			this->pictureBox1->Name = L"pictureBox1";
+			this->pictureBox1->Size = System::Drawing::Size(413, 400);
+			this->pictureBox1->TabIndex = 2;
+			this->pictureBox1->TabStop = false;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(426, 435);
+			this->ClientSize = System::Drawing::Size(900, 562);
+			this->Controls->Add(this->pictureBox1);
 			this->Controls->Add(this->panel1);
 			this->Controls->Add(this->menuStrip1);
 			this->MainMenuStrip = this->menuStrip1;
@@ -163,6 +176,7 @@ namespace Project1 {
 			this->panel1->ResumeLayout(false);
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -220,8 +234,8 @@ namespace Project1 {
 		/*
 		*!DONT PUT ANYTHING IN HERE!*
 		*/
-		panelWidth = panel1->Width; // set panelWidth
-		panelHeight = panel1->Height; // set panelHeight
+		panelWidth = pictureBox1->Width; // set panelWidth
+		panelHeight = pictureBox1->Height; // set panelHeight
 		//Xx = 0; // set original x location of Jared
 		//Yy = 0; // set original y location of Jared
 
@@ -231,34 +245,33 @@ namespace Project1 {
 		// Create a Bitmap object to hold the jared icon
 		// jared = gcnew Bitmap("Jared.bmp");
 
-
 		//g = panel1->CreateGraphics(); // create Graphics g on panel1
 		gbmp = Graphics::FromImage(view); // create Graphics gbmp from view
 	}
 
-	private: int cellSize(int a){
-		int max = 400;
+			private: int cellSize(int a){
+				int max = 400;
 
-		cell = max / a;
+				cell = max / a;
 
-		return cell;
-	}
-			 //draws cells, starts at top left, goes down, moves right
-			 private: void drawGrid(int b, int c)
-			 {
-						  for (int i = 0; i < b; i++)
-						  {
-							  for (int j = 0; j < c; j++)
-							  {
-								  //draws image, goes down 1
-								  g->DrawImage(Cells, Xx, Yy, 40, 40);
-								  Yy += 40;
-							  }
-							  //goes back to top and moves right 1
-							  Xx += 40;
-							  Yy = 0;
-						  }
-			 }
+				return cell;
+			}
+			//draws cells, starts at top left, goes down, moves right
+			private: void drawGrid(int b, int c)
+			{
+					for (int i = 0; i < b; i++)
+					{
+						for (int j = 0; j < c; j++)
+						{
+							//draws image, goes down 1
+							g->DrawImage(Cells, Xx, Yy, 40, 40);
+							Yy += 40;
+						}
+						//goes back to top and moves right 1
+						Xx += 40;
+						Yy = 0;
+					}
+			}
 
 			// function to clear <view>
 			private: System::Void clearView()
@@ -273,7 +286,7 @@ namespace Project1 {
 			{
 				 clearView();
 				 gbmp->DrawImage(Cells, Xx, Yy); // add "jared" image to gbmp (auto adds to the "view" bitmap)
-				 panel1->Refresh(); // clear panel1
+				 pictureBox1->Refresh(); // clear panel1
 				 g->DrawImage(view, Point(0, 0)); // draw the "view" image to g (which is on panel1)
 			}
 			//places beepers at designated locations
@@ -296,10 +309,7 @@ namespace Project1 {
 			}
 
 private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {		 
-			 g = panel1->CreateGraphics();
-			 brackPen = gcnew System::Drawing::Pen(Color::Black);
-			// Refresh();
-			 drawGrid(num_avenues, num_streets);
+
 			// g->DrawImage(rekt, 40, 40, 40, 40);
 			 //Refresh();
 
@@ -308,15 +318,6 @@ private: System::Void panel1_Paint(System::Object^  sender, System::Windows::For
 			 brackPen = gcnew System::Drawing::Pen(Color::Black);
 			 cellSize(kirel.getNum(6, 9, 0, 1));
 			 //fillGrid();
-
-			 //finds the world and creates a grid based on the dimensions found
-			 if (kirel.parsing(0, 5, 0, 1) == "World"){
-				 fillGrid(num_avenues, num_streets);
-			 }
-
-			 if (kirel.parsing(0, 7, 0, 2) == "Beepers"){
-				 g->DrawImage(Beeper, (beeper_ave * cell), (beeper_street * cell), cell, cell);
-			 }
 			 */
 }
 private: System::Void exitToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -332,6 +333,14 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 }
 private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
 			 updateGraphics(); // run above function
+}
+private: System::Void pictureBox1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
+			 g = pictureBox1->CreateGraphics();
+			 brackPen = gcnew System::Drawing::Pen(Color::Black);
+			 // Refresh();
+			 //drawGrid(num_avenues, num_streets);
+
+			 g->DrawImage(rekt, 40, 40);
 }
 };
 }
