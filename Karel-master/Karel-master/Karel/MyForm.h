@@ -181,6 +181,9 @@ namespace Project1 {
 
 		int panelWidth, panelHeight; // width and height of panel1
 
+		//cell size
+		int cell;
+
 		//grid image location
 		int Xx = 0;
 		int Yy = 0;
@@ -190,17 +193,17 @@ namespace Project1 {
 		int Y = 0;
 		
 		//item quantity
-		int num_avenues;
-		int num_streets;
+		int num_avenues = kirel.getNum(6, 9, 0, 1);
+		int num_streets = kirel.getNum(6, 9, 0, 1);
 		int num_beepers;
 
 		//item ave
-		int beeper_ave;
+		int beeper_ave = kirel.getNum(8, 11, 0, 2);
 		int wall_ave;
 		int robot_ave;
 
 		//item street
-		int beeper_street;
+		int beeper_street = kirel.getNum(8, 11, 0, 2);
 		int wall_street;
 		int robot_street;
 
@@ -214,30 +217,38 @@ namespace Project1 {
 		Rectangle gridRect;
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
-				 /*
-				 *!DONT PUT ANYTHING IN HERE!*
-				 */
-				 panelWidth = panel1->Width; // set panelWidth
-				 panelHeight = panel1->Height; // set panelHeight
-				 //Xx = 0; // set original x location of Jared
-				 //Yy = 0; // set original y location of Jared
+		/*
+		*!DONT PUT ANYTHING IN HERE!*
+		*/
+		panelWidth = panel1->Width; // set panelWidth
+		panelHeight = panel1->Height; // set panelHeight
+		//Xx = 0; // set original x location of Jared
+		//Yy = 0; // set original y location of Jared
 
-				 // Create a Bitmap object to create gbmp out of
-				 view = gcnew Bitmap(panelWidth, panelHeight, System::Drawing::Imaging::PixelFormat::Format32bppArgb);
+		// Create a Bitmap object to create gbmp out of
+		view = gcnew Bitmap(panelWidth, panelHeight, System::Drawing::Imaging::PixelFormat::Format32bppArgb);
 
-				 // Create a Bitmap object to hold the jared icon
-				// jared = gcnew Bitmap("Jared.bmp");
+		// Create a Bitmap object to hold the jared icon
+		// jared = gcnew Bitmap("Jared.bmp");
 
 
-				 //g = panel1->CreateGraphics(); // create Graphics g on panel1
-				 gbmp = Graphics::FromImage(view); // create Graphics gbmp from view
+		//g = panel1->CreateGraphics(); // create Graphics g on panel1
+		gbmp = Graphics::FromImage(view); // create Graphics gbmp from view
+	}
+
+	private: int cellSize(int a){
+		int max = 400;
+
+		cell = max / a;
+
+		return cell;
 	}
 			 //draws cells, starts at top left, goes down, moves right
-			 private: void drawGrid()
+			 private: void drawGrid(int b, int c)
 			 {
-						  for (int i = 0; i < 9; i++)
+						  for (int i = 0; i < b; i++)
 						  {
-							  for (int j = 0; j < 8; j++)
+							  for (int j = 0; j < c; j++)
 							  {
 								  //draws image, goes down 1
 								  g->DrawImage(Cells, Xx, Yy, 40, 40);
@@ -248,6 +259,7 @@ namespace Project1 {
 							  Yy = 0;
 						  }
 			 }
+
 			// function to clear <view>
 			private: System::Void clearView()
 			{
@@ -287,9 +299,25 @@ private: System::Void panel1_Paint(System::Object^  sender, System::Windows::For
 			 g = panel1->CreateGraphics();
 			 brackPen = gcnew System::Drawing::Pen(Color::Black);
 			// Refresh();
-			 drawGrid();
+			 drawGrid(num_avenues, num_streets);
 			// g->DrawImage(rekt, 40, 40, 40, 40);
 			 //Refresh();
+
+			 /*
+			 g = panel1->CreateGraphics();
+			 brackPen = gcnew System::Drawing::Pen(Color::Black);
+			 cellSize(kirel.getNum(6, 9, 0, 1));
+			 //fillGrid();
+
+			 //finds the world and creates a grid based on the dimensions found
+			 if (kirel.parsing(0, 5, 0, 1) == "World"){
+				 fillGrid(num_avenues, num_streets);
+			 }
+
+			 if (kirel.parsing(0, 7, 0, 2) == "Beepers"){
+				 g->DrawImage(Beeper, (beeper_ave * cell), (beeper_street * cell), cell, cell);
+			 }
+			 */
 }
 private: System::Void exitToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 robot.turnoff();
