@@ -1,4 +1,5 @@
 #pragma once
+#include "carl.h"
 
 namespace Project1 {
 
@@ -72,15 +73,18 @@ namespace Project1 {
 			this->Controls->Add(this->pictureBox1);
 			this->Name = L"MyForm";
 			this->Text = L"MyForm";
+			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
-		Graphics^ g
+		Graphics^ g;
 
 		Pen^ brackPen;
-		array <kural^, 2>^ grid;
+		
+
+		array <sugardaddy^, 2>^ grid;
 		sugardaddy bigpapa;
 
 		Bitmap^ rekt = gcnew Bitmap("C:\\Users\\hpalmer\\Desktop\\Image.gif");
@@ -96,17 +100,17 @@ namespace Project1 {
 		int Yy = 0;
 
 		//item quantity
-		int num_avenues = sugardaddy.getNum(6, 9, 0, 1);
-		int num_streets = sugardaddy.getNum(6, 9, 0, 1);
+		int num_avenues = bigpapa.getNum(6, 9, 0, 1);
+		int num_streets = bigpapa.getNum(6, 9, 0, 1);
 		int num_beepers;
 
 		//item ave
-		int beeper_ave = sugardaddy.getNum(8, 11, 0, 2);
+		int beeper_ave = bigpapa.getNum(8, 11, 0, 2);
 		int wall_ave;
 		int robot_ave;
 
 		//item street
-		int beeper_street = sugardaddy.getNum(8, 11, 0, 2);
+		int beeper_street = bigpapa.getNum(8, 11, 0, 2);
 		int wall_street;
 		int robot_street;
 
@@ -169,9 +173,11 @@ namespace Project1 {
 /******************************************************/
 
 	private: System::Void pictureBox1_Click(System::Object^  sender, System::EventArgs^  e) {
-				 brackPen = gcnew System::Drawing::Pen(Color::Black); 
-				 cellSize(sugardaddy.getNum(6, 9, 0, 1));
+				 brackPen = gcnew System::Drawing::Pen(Color::Black);
+				 cellSize(bigpapa.getNum(6, 9, 0, 1));
 				 drawGrid(num_avenues, num_streets);
 	}
-	};
+	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
+	}
+};
 }
