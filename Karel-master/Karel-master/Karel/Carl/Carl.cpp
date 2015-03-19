@@ -7,6 +7,19 @@ using namespace std;
 using namespace System::Windows::Forms;
 //#include <Application>
 
+sugardaddy::sugardaddy(int a, int b, bool c)
+{
+	if (a >= 0) row = a;
+	if (b >= 0) col = c;
+	access = c;
+	hasBeeper = false;
+}
+
+void sugardaddy::setBeeper(bool beep)
+{
+	hasBeeper = true;
+}
+
 int sugardaddy::move()
 {
 	return 5;
