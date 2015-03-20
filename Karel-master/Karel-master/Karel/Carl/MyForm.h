@@ -2,6 +2,9 @@
 #include "carl.h"
 #include "robot.h"
 
+#using <mscorlib.dll>
+#include <tchar.h>
+
 namespace Project1 {
 
 	using namespace System;
@@ -37,7 +40,7 @@ namespace Project1 {
 			}
 		}
 	private: System::Windows::Forms::Panel^  panel1;
-	private: System::Windows::Forms::ToolStrip^  toolStrip1;
+
 	private: System::Windows::Forms::MenuStrip^  menuStrip1;
 	private: System::Windows::Forms::ToolStripMenuItem^  fileToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  newGameToolStripMenuItem;
@@ -66,15 +69,14 @@ namespace Project1 {
 		{
 			this->components = (gcnew System::ComponentModel::Container());
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
-			this->toolStrip1 = (gcnew System::Windows::Forms::ToolStrip());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->newGameToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->playPauseToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->helpToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -82,17 +84,8 @@ namespace Project1 {
 			// 
 			this->panel1->Location = System::Drawing::Point(12, 26);
 			this->panel1->Name = L"panel1";
-			this->panel1->Size = System::Drawing::Size(417, 330);
+			this->panel1->Size = System::Drawing::Size(330, 330);
 			this->panel1->TabIndex = 0;
-			this->panel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::panel1_Paint);
-			// 
-			// toolStrip1
-			// 
-			this->toolStrip1->Location = System::Drawing::Point(0, 24);
-			this->toolStrip1->Name = L"toolStrip1";
-			this->toolStrip1->Size = System::Drawing::Size(441, 25);
-			this->toolStrip1->TabIndex = 1;
-			this->toolStrip1->Text = L"toolStrip1";
 			// 
 			// menuStrip1
 			// 
@@ -102,7 +95,7 @@ namespace Project1 {
 			});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(441, 24);
+			this->menuStrip1->Size = System::Drawing::Size(367, 24);
 			this->menuStrip1->TabIndex = 2;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -144,10 +137,6 @@ namespace Project1 {
 			this->aboutToolStripMenuItem->Text = L"About";
 			this->aboutToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::aboutToolStripMenuItem_Click);
 			// 
-			// timer1
-			// 
-			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
-			// 
 			// helpToolStripMenuItem
 			// 
 			this->helpToolStripMenuItem->Name = L"helpToolStripMenuItem";
@@ -155,17 +144,20 @@ namespace Project1 {
 			this->helpToolStripMenuItem->Text = L"Help";
 			this->helpToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::helpToolStripMenuItem_Click);
 			// 
+			// timer1
+			// 
+			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(441, 368);
-			this->Controls->Add(this->toolStrip1);
+			this->ClientSize = System::Drawing::Size(367, 368);
 			this->Controls->Add(this->menuStrip1);
 			this->Controls->Add(this->panel1);
 			this->MainMenuStrip = this->menuStrip1;
 			this->Name = L"MyForm";
-			this->Text = L"MyForm";
+			this->Text = L"Gumby";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
@@ -197,23 +189,20 @@ namespace Project1 {
 		//cell size
 		int cell;
 
-		int row;
-		int col;
-
 		//x
-		int num_avenues = bigpapa.getNum(6, 8, 0, 1);
+		int num_avenues = 8; // bigpapa.getNum(6, 8, 0, 1);
 		//y
-		int num_streets = bigpapa.getNum(8, 10, 0, 1);
+		int num_streets = 8; // bigpapa.getNum(8, 10, 0, 1);
 		int num_beepers;
 
 		//beeper x
-		int beeper_ave = bigpapa.getNum(8, 11, 0, 2);
+		int beeper_ave = 3; // bigpapa.getNum(8, 11, 0, 2);
 		int wall_ave;
 		//robots x
 		int robot_ave = 2;
 
 		//beeper y
-		int beeper_street = bigpapa.getNum(11, 13, 0, 2);
+		int beeper_street = 3; // bigpapa.getNum(11, 12, 0, 2);
 		int wall_street;
 		//robots y
 		int robot_street = 2;
@@ -231,7 +220,7 @@ namespace Project1 {
 	private: int cellSize(){
 				 int max = MyForm::Size.Width;
 
-				 cell = max / bigpapa.getNum(8, 10, 0, 1);
+				 cell = max / 8; //bigpapa.getNum(8, 10, 0, 1);
 
 				 return cell;
 	}
@@ -243,15 +232,17 @@ namespace Project1 {
 
 				 panel1->Refresh();
 
-				 for (rows = 0; rows < num_avenues; row++)
-				 for (cols = 0; cols < num_streets; cols++)
+				 for (rows = 0; rows < num_avenues; rows++)
 				 {
-					 x = cols * cellSize();
-					 y = rows * cellSize();
+					 for (cols = 0; cols < num_streets; cols++)
+					 {
+						 x = cols * cellSize();
+						 y = rows * cellSize();
 
-					 Rectangle gridRect = Rectangle(x, y, cellSize() - 1, cellSize() - 1);
-					 g->FillRectangle(whitebrush, gridRect);
-					 g->DrawRectangle(brackPen, gridRect);
+						 Rectangle gridRect = Rectangle(x, y, cellSize() - 1, cellSize() - 1);
+						 g->FillRectangle(whitebrush, gridRect);
+						 g->DrawRectangle(brackPen, gridRect);
+					 }
 				 }
 	}
 			 //checks if a robot is colliding with a wall
@@ -286,21 +277,22 @@ namespace Project1 {
 				 whitebrush = gcnew System::Drawing::SolidBrush(Color::White);
 				 redbrush = gcnew System::Drawing::SolidBrush(Color::Red);
 
+				 int row;
+				 int col;
+
 				 //declare the array
 				 grid = gcnew array<sugardaddy^, 2>(num_avenues, num_streets);
 
 				 //fill array with the grid
 				 for (row = 0; row < num_avenues; row++)
-				 for (col = 0; col < num_streets; col++)
-					 grid[row, col] = gcnew sugardaddy(row, col, true);
-	}
-	private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
-				 //g->DrawRectangle(brackPen, gridRect);
-				 // g->DrawImage(Cells, 0, 0, 150, 150);
+				 {
+					 for (col = 0; col < num_streets; col++)
+						 grid[row, col] = gcnew sugardaddy(row, col, true);
+				 }
 	}
 	private: System::Void newGameToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 				 int x, y;
-
+				 
 				 //determines location
 				 x = beeper_ave * cellSize();
 				 y = beeper_street * cellSize();
@@ -308,11 +300,11 @@ namespace Project1 {
 				 //sets starting direction
 				 direction = 'r';
 
-				 mrRobot = gcnew carlrobot(robot_ave, robot_street);
+				 
 
 				 //draws the grid
 				 drawGrid();
-
+				 mrRobot = gcnew carlrobot(robot_ave, robot_street);
 				 //where the beeper will be placed
 				 Rectangle BeepRect = Rectangle(x, y, cellSize(), cellSize());
 				 //draws the beeper at specified location
