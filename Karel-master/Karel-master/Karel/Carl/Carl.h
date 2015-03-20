@@ -6,10 +6,6 @@ using namespace std;
 public ref class sugardaddy{
 
 private:
-	int start;
-	int end;
-
-	/********/
 	int row; 
 	int col;
 	bool access;
@@ -28,14 +24,6 @@ public:
 	//setters
 	void setBeeper(bool beep) { hasBeeper = true; }
 	void setAccess(bool a) { access = a; }
-
-	//possibly unneeded
-	int move();
-	void turnleft();
-	void turnoff();
-	void putbeeper();
-	void pickbeeper();
-
 
 	string getFile(int start, int end);
 

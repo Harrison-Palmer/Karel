@@ -14,27 +14,6 @@ sugardaddy::sugardaddy(int a, int b, bool c)
 	access = c;
 	hasBeeper = false;
 }
-int sugardaddy::move()
-{
-	return 5;
-}
-void sugardaddy::turnleft()
-{
-	return;
-}
-void sugardaddy::turnoff()
-{
-	Application::Exit();
-}
-void sugardaddy::putbeeper()
-{
-
-}
-void sugardaddy::pickbeeper()
-{
-
-}
-
 string sugardaddy::getFile(int start, int end){
 	ifstream a_file;
 	string strInput;

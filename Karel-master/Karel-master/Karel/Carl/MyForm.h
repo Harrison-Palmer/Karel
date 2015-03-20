@@ -44,6 +44,8 @@ namespace Project1 {
 	private: System::Windows::Forms::Timer^  timer1;
 	private: System::Windows::Forms::ToolStripMenuItem^  playPauseToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  exitToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  aboutToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  helpToolStripMenuItem;
 	private: System::ComponentModel::IContainer^  components;
 	protected:
 
@@ -69,8 +71,10 @@ namespace Project1 {
 			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->newGameToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->playPauseToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
+			this->helpToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -78,7 +82,7 @@ namespace Project1 {
 			// 
 			this->panel1->Location = System::Drawing::Point(12, 26);
 			this->panel1->Name = L"panel1";
-			this->panel1->Size = System::Drawing::Size(260, 224);
+			this->panel1->Size = System::Drawing::Size(417, 330);
 			this->panel1->TabIndex = 0;
 			this->panel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::panel1_Paint);
 			// 
@@ -86,16 +90,19 @@ namespace Project1 {
 			// 
 			this->toolStrip1->Location = System::Drawing::Point(0, 24);
 			this->toolStrip1->Name = L"toolStrip1";
-			this->toolStrip1->Size = System::Drawing::Size(284, 25);
+			this->toolStrip1->Size = System::Drawing::Size(441, 25);
 			this->toolStrip1->TabIndex = 1;
 			this->toolStrip1->Text = L"toolStrip1";
 			// 
 			// menuStrip1
 			// 
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->fileToolStripMenuItem });
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
+				this->fileToolStripMenuItem,
+					this->aboutToolStripMenuItem, this->helpToolStripMenuItem
+			});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(284, 24);
+			this->menuStrip1->Size = System::Drawing::Size(441, 24);
 			this->menuStrip1->TabIndex = 2;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -112,33 +119,47 @@ namespace Project1 {
 			// newGameToolStripMenuItem
 			// 
 			this->newGameToolStripMenuItem->Name = L"newGameToolStripMenuItem";
-			this->newGameToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->newGameToolStripMenuItem->Size = System::Drawing::Size(132, 22);
 			this->newGameToolStripMenuItem->Text = L"New Game";
 			this->newGameToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::newGameToolStripMenuItem_Click);
 			// 
 			// playPauseToolStripMenuItem
 			// 
 			this->playPauseToolStripMenuItem->Name = L"playPauseToolStripMenuItem";
-			this->playPauseToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->playPauseToolStripMenuItem->Size = System::Drawing::Size(132, 22);
 			this->playPauseToolStripMenuItem->Text = L"Play/Pause";
 			this->playPauseToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::playPauseToolStripMenuItem_Click);
+			// 
+			// exitToolStripMenuItem
+			// 
+			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
+			this->exitToolStripMenuItem->Size = System::Drawing::Size(132, 22);
+			this->exitToolStripMenuItem->Text = L"Exit";
+			this->exitToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::exitToolStripMenuItem_Click);
+			// 
+			// aboutToolStripMenuItem
+			// 
+			this->aboutToolStripMenuItem->Name = L"aboutToolStripMenuItem";
+			this->aboutToolStripMenuItem->Size = System::Drawing::Size(52, 20);
+			this->aboutToolStripMenuItem->Text = L"About";
+			this->aboutToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::aboutToolStripMenuItem_Click);
 			// 
 			// timer1
 			// 
 			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
 			// 
-			// exitToolStripMenuItem
+			// helpToolStripMenuItem
 			// 
-			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
-			this->exitToolStripMenuItem->Size = System::Drawing::Size(152, 22);
-			this->exitToolStripMenuItem->Text = L"Exit";
-			this->exitToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::exitToolStripMenuItem_Click);
+			this->helpToolStripMenuItem->Name = L"helpToolStripMenuItem";
+			this->helpToolStripMenuItem->Size = System::Drawing::Size(44, 20);
+			this->helpToolStripMenuItem->Text = L"Help";
+			this->helpToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::helpToolStripMenuItem_Click);
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(284, 262);
+			this->ClientSize = System::Drawing::Size(441, 368);
 			this->Controls->Add(this->toolStrip1);
 			this->Controls->Add(this->menuStrip1);
 			this->Controls->Add(this->panel1);
@@ -179,10 +200,6 @@ namespace Project1 {
 		int row;
 		int col;
 
-		//grid image location
-		int Xx = 0;
-		int Yy = 0;
-
 		//x
 		int num_avenues = bigpapa.getNum(6, 8, 0, 1);
 		//y
@@ -208,17 +225,17 @@ namespace Project1 {
 		//robot's current number of beepers
 		int robot_beepers;
 
-/*************************************************************************/
+		/*************************************************************************/
 
-	//sets every cell perportional to the # of cells
+		//sets every cell perportional to the # of cells
 	private: int cellSize(){
 				 int max = MyForm::Size.Width;
 
 				 cell = max / bigpapa.getNum(8, 10, 0, 1);
 
-				return cell;
+				 return cell;
 	}
-	//draws cells, starts at top left, goes down, moves right
+			 //draws cells, starts at top left, goes down, moves right
 	private: void drawGrid()
 	{
 				 int rows, cols;
@@ -237,25 +254,7 @@ namespace Project1 {
 					 g->DrawRectangle(brackPen, gridRect);
 				 }
 	}
-	//places beepers at designated locations
-	private: void drawBeepers()
-	{
-			for (int i = 0; i < num_beepers; i++)
-			{
-				g->DrawImage(Beeper, beeper_ave, beeper_street, 40, 40);
-			}
-	}
-	//draws a wall at specified location and direction
-	private: void drawWall()
-	{
-					//g->DrawImage(rekt, wall_ave, wall_street, 40, 40);
-	}
-	//places karel in the world with location, direction, and number of beepers indicated
-	private: void drawRobot()
-	{
-					g->DrawImage(Karel_bot, robot_ave, robot_street, 40, 40);
-	}
-	//checks if a robot is colliding with a wall
+			 //checks if a robot is colliding with a wall
 	private: bool isColliding()
 	{
 				 if (direction == 'r')
@@ -270,7 +269,7 @@ namespace Project1 {
 				 }
 				 else if (direction = 'd')
 				 {
-					 if (mrRobot->getrow() < num_streets-1)
+					 if (mrRobot->getrow() < num_streets - 1)
 						 return true;
 				 }
 				 else if (direction = 'u')
@@ -279,8 +278,7 @@ namespace Project1 {
 						 return true;
 				 }
 	}
-/******************************************************/
-
+			 /******************************************************/
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 				 //create graphics objects
 				 g = panel1->CreateGraphics();
@@ -293,138 +291,131 @@ namespace Project1 {
 
 				 //fill array with the grid
 				 for (row = 0; row < num_avenues; row++)
-					 for (col = 0; col < num_streets; col++)
-						 grid[row, col] = gcnew sugardaddy(row, col, true);
-
-				 //panel1->Refresh();
-				 /*
-				 g->DrawRectangle(brackPen, gridRect);
-				 gridRect.X = 50;
-				 gridRect.Y = 50;
-				 gridRect.Size.Height = 50;
-				 gridRect.Size.Width = 50;
-
-				 cellSize(bigpapa.getNum(6, 9, 0, 1));
-				 //drawGrid(num_avenues, num_streets);
-				 g->DrawImage(rekt, gridRect);
-				 */
+				 for (col = 0; col < num_streets; col++)
+					 grid[row, col] = gcnew sugardaddy(row, col, true);
 	}
-private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
-			 //g->DrawRectangle(brackPen, gridRect);
-			// g->DrawImage(Cells, 0, 0, 150, 150);
-}
-private: System::Void newGameToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 int x, y;
+	private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
+				 //g->DrawRectangle(brackPen, gridRect);
+				 // g->DrawImage(Cells, 0, 0, 150, 150);
+	}
+	private: System::Void newGameToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+				 int x, y;
 
-			 //determines location
-			 x = beeper_ave * cellSize();
-			 y = beeper_street * cellSize();
+				 //determines location
+				 x = beeper_ave * cellSize();
+				 y = beeper_street * cellSize();
 
-			 //sets starting direction
-			 direction = 'r';
+				 //sets starting direction
+				 direction = 'r';
 
-			 mrRobot = gcnew carlrobot(robot_ave, robot_street);
+				 mrRobot = gcnew carlrobot(robot_ave, robot_street);
 
-			 //draws the grid
-			 drawGrid();
+				 //draws the grid
+				 drawGrid();
 
-			 //where the beeper will be placed
-			 Rectangle BeepRect = Rectangle(x, y, cellSize(), cellSize());
-			 //draws the beeper at specified location
-			 g->DrawImage(Beeper, BeepRect);
-			 //makes the grid aware a beeper is at this location
-			 grid[beeper_ave, beeper_street]->setBeeper(true);
+				 //where the beeper will be placed
+				 Rectangle BeepRect = Rectangle(x, y, cellSize(), cellSize());
+				 //draws the beeper at specified location
+				 g->DrawImage(Beeper, BeepRect);
+				 //makes the grid aware a beeper is at this location
+				 grid[beeper_ave, beeper_street]->setBeeper(true);
 
-			 //the robots location
-			 mrRobot->setrow(robot_ave);
-			 mrRobot->setcol(robot_street);
-			 x = robot_ave + cellSize();
-			 y = robot_street + cellSize();
+				 //the robots location
+				 mrRobot->setrow(robot_ave);
+				 mrRobot->setcol(robot_street);
+				 x = robot_ave + cellSize();
+				 y = robot_street + cellSize();
 
-			 //what the robot will be drawn in
-			 Rectangle robotRect = Rectangle(x, y, cellSize(), cellSize());
-			 g->DrawImage(mrRobot->getimage(), robotRect);
+				 //what the robot will be drawn in
+				 Rectangle robotRect = Rectangle(x, y, cellSize(), cellSize());
+				 g->DrawImage(mrRobot->getimage(), robotRect);
 
-			 //begin le timer
-			 timer1->Start();
-			 play = true;
-}
-private: System::Void playPauseToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 if (play)
-				 timer1->Stop();
-			 else
-				timer1->Start();		 
-}
-private: System::Void exitToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 Application::Exit();
-}
-private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
-			 int x, y;
-			 int rows, cols;
-
-			 rows = mrRobot->getrow();
-			 cols = mrRobot->getcol();
-			 x = mrRobot->getcol() * cellSize();
-			 y = mrRobot->getrow() * cellSize();
-
-			 //records current robot position
-			 Rectangle nowrobot = Rectangle(x, y, cellSize(), cellSize());
-
-			 if (!isColliding())
-			 {
-				 g->FillRectangle(redbrush, nowrobot);
-				 g->DrawRectangle(brackPen, nowrobot);
-
-				 //move to the specified place
-				 switch (direction)
-				 {
-				 case 'r':
-					 mrRobot->goright();
-					 break;
-				 case 'l':
-					 mrRobot->goleft();
-					 break;
-				 case 'd':
-					 mrRobot->godown();
-					 break;
-				 case 'u':
-					 mrRobot->goup();
-					 break;
-				 }
+				 //begin le timer
+				 timer1->Start();
+				 play = true;
+	}
+	private: System::Void playPauseToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+				 if (play)
+					 timer1->Stop();
+				 else
+					 timer1->Start();
+	}
+	private: System::Void exitToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+				 Application::Exit();
+	}
+	private: System::Void aboutToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+				 MessageBox::Show("Developed by Harrison, Jared, Trevah, and Ross.");
+	}
+	private: System::Void helpToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+				 MessageBox::Show("You're out of luck.");
+	}
+	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
+				 int x, y;
+				 int rows, cols;
 
 				 rows = mrRobot->getrow();
 				 cols = mrRobot->getcol();
-				 x = cols * cellSize();
-				 y = rows * cellSize();
+				 x = mrRobot->getcol() * cellSize();
+				 y = mrRobot->getrow() * cellSize();
 
-				 Rectangle robotRectv2 = Rectangle(x, y, cellSize(), cellSize());
-				 g->DrawImage(mrRobot->getimage(), robotRectv2);
+				 //records current robot position
+				 Rectangle nowrobot = Rectangle(x, y, cellSize(), cellSize());
 
-				 if (grid[rows, cols]->getBeeper())
+				 if (!isColliding())
 				 {
-					 grid[rows, cols]->setBeeper(false);
-					 timer1->Stop();
-					 MessageBox::Show("Radical bruh, you got da beeer.");
+					 g->FillRectangle(redbrush, nowrobot);
+					 g->DrawRectangle(brackPen, nowrobot);
+
+					 //move to the specified place
+					 switch (direction)
+					 {
+					 case 'r':
+						 mrRobot->goright();
+						 break;
+					 case 'l':
+						 mrRobot->goleft();
+						 break;
+					 case 'd':
+						 mrRobot->godown();
+						 break;
+					 case 'u':
+						 mrRobot->goup();
+						 break;
+					 }
+
+					 rows = mrRobot->getrow();
+					 cols = mrRobot->getcol();
+					 x = cols * cellSize();
+					 y = rows * cellSize();
+
+					 Rectangle robotRectv2 = Rectangle(x, y, cellSize(), cellSize());
+					 g->DrawImage(mrRobot->getimage(), robotRectv2);
+
+					 if (grid[rows, cols]->getBeeper())
+					 {
+						 grid[rows, cols]->setBeeper(false);
+						 timer1->Stop();
+						 MessageBox::Show("Radical bruh, you got da beeer.");
+					 }
 				 }
-			 }
-			 else
-			 {
-				 switch (direction)
+				 else
 				 {
-				 case 'r':
-					 direction = 'd';
-					 break;
-				 case 'l':
-					 direction = 'u';
-					 break;
-				 case 'u':
-					 direction = 'r';
-					 break;
-				 case 'd':
-					 direction = 'l';
-					 break;
+					 switch (direction)
+					 {
+					 case 'r':
+						 direction = 'd';
+						 break;
+					 case 'l':
+						 direction = 'u';
+						 break;
+					 case 'u':
+						 direction = 'r';
+						 break;
+					 case 'd':
+						 direction = 'l';
+						 break;
+					 }
 				 }
-			 }
-};
-};
+	};
+	};
 }
