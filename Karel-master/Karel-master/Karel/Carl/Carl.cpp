@@ -14,12 +14,6 @@ sugardaddy::sugardaddy(int a, int b, bool c)
 	access = c;
 	hasBeeper = false;
 }
-
-void sugardaddy::setBeeper(bool beep)
-{
-	hasBeeper = true;
-}
-
 int sugardaddy::move()
 {
 	return 5;

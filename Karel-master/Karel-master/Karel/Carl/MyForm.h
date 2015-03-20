@@ -1,5 +1,6 @@
 #pragma once
 #include "carl.h"
+#include "robot.h"
 
 namespace Project1 {
 
@@ -40,6 +41,10 @@ namespace Project1 {
 	private: System::Windows::Forms::MenuStrip^  menuStrip1;
 	private: System::Windows::Forms::ToolStripMenuItem^  fileToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  newGameToolStripMenuItem;
+	private: System::Windows::Forms::Timer^  timer1;
+	private: System::Windows::Forms::ToolStripMenuItem^  playPauseToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  exitToolStripMenuItem;
+	private: System::ComponentModel::IContainer^  components;
 	protected:
 
 	protected:
@@ -48,7 +53,7 @@ namespace Project1 {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -57,11 +62,15 @@ namespace Project1 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
 			this->toolStrip1 = (gcnew System::Windows::Forms::ToolStrip());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->newGameToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->playPauseToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
+			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -92,7 +101,10 @@ namespace Project1 {
 			// 
 			// fileToolStripMenuItem
 			// 
-			this->fileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->newGameToolStripMenuItem });
+			this->fileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
+				this->newGameToolStripMenuItem,
+					this->playPauseToolStripMenuItem, this->exitToolStripMenuItem
+			});
 			this->fileToolStripMenuItem->Name = L"fileToolStripMenuItem";
 			this->fileToolStripMenuItem->Size = System::Drawing::Size(37, 20);
 			this->fileToolStripMenuItem->Text = L"File";
@@ -103,6 +115,24 @@ namespace Project1 {
 			this->newGameToolStripMenuItem->Size = System::Drawing::Size(152, 22);
 			this->newGameToolStripMenuItem->Text = L"New Game";
 			this->newGameToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::newGameToolStripMenuItem_Click);
+			// 
+			// playPauseToolStripMenuItem
+			// 
+			this->playPauseToolStripMenuItem->Name = L"playPauseToolStripMenuItem";
+			this->playPauseToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->playPauseToolStripMenuItem->Text = L"Play/Pause";
+			this->playPauseToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::playPauseToolStripMenuItem_Click);
+			// 
+			// timer1
+			// 
+			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
+			// 
+			// exitToolStripMenuItem
+			// 
+			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
+			this->exitToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->exitToolStripMenuItem->Text = L"Exit";
+			this->exitToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::exitToolStripMenuItem_Click);
 			// 
 			// MyForm
 			// 
@@ -127,14 +157,21 @@ namespace Project1 {
 
 		Pen^ brackPen;
 		Brush^ whitebrush;
+		Brush^ redbrush;
 
 		array <sugardaddy^, 2>^ grid;
 		sugardaddy bigpapa;
 
-		Bitmap^ rekt = gcnew Bitmap("C:\\Users\\hpalmer\\Desktop\\Image.gif");
-		Bitmap^ Beeper = gcnew Bitmap("C:\\Users\\hpalmer\\Documents\\GitHub\\CS114\\Karel-master\\Karel-master\\Karel\\Beeper.png");
-		Bitmap^ Karel_bot = gcnew Bitmap("C:\\Users\\hpalmer\\Documents\\GitHub\\CS114\\Karel-master\\Karel-master\\Karel\\Gumby.png");
-		Bitmap^ Cells = gcnew Bitmap("C:\\Users\\hpalmer\\Documents\\GitHub\\CS114\\Karel-master\\Karel-master\\Karel\\Cell.png");
+		//robot object
+		carlrobot^ mrRobot;
+
+		char direction;
+
+		Bitmap^ Beeper = gcnew Bitmap("C:\\Users\\hpalmer\\Documents\\GitHub\\Karel\\Karel-master\\Karel-master\\Karel\\Beeper.png");
+		Bitmap^ Karel_bot = gcnew Bitmap("C:\\Users\\hpalmer\\Documents\\GitHub\\Karel\\Karel-master\\Karel-master\\Karel\\Gumby.png");
+		Bitmap^ Cells = gcnew Bitmap("C:\\Users\\hpalmer\\Documents\\GitHub\\Karel\\Karel-master\\Karel-master\\Karel\\Cell.png");
+
+		bool play = false;
 
 		//cell size
 		int cell;
@@ -146,20 +183,23 @@ namespace Project1 {
 		int Xx = 0;
 		int Yy = 0;
 
-		//item quantity
+		//x
 		int num_avenues = bigpapa.getNum(6, 8, 0, 1);
+		//y
 		int num_streets = bigpapa.getNum(8, 10, 0, 1);
 		int num_beepers;
 
-		//item ave
+		//beeper x
 		int beeper_ave = bigpapa.getNum(8, 11, 0, 2);
 		int wall_ave;
-		int robot_ave;
+		//robots x
+		int robot_ave = 2;
 
-		//item street
+		//beeper y
 		int beeper_street = bigpapa.getNum(11, 13, 0, 2);
 		int wall_street;
-		int robot_street;
+		//robots y
+		int robot_street = 2;
 
 		//item direction
 		int wall_direction;
@@ -208,24 +248,50 @@ namespace Project1 {
 	//draws a wall at specified location and direction
 	private: void drawWall()
 	{
-					g->DrawImage(rekt, wall_ave, wall_street, 40, 40);
+					//g->DrawImage(rekt, wall_ave, wall_street, 40, 40);
 	}
-				//places karel in the world with location, direction, and number of beepers indicated
+	//places karel in the world with location, direction, and number of beepers indicated
 	private: void drawRobot()
 	{
 					g->DrawImage(Karel_bot, robot_ave, robot_street, 40, 40);
 	}
-
-
+	//checks if a robot is colliding with a wall
+	private: bool isColliding()
+	{
+				 if (direction == 'r')
+				 {
+					 if (mrRobot->getcol() < num_avenues - 1)
+						 return true;
+				 }
+				 else if (direction = 'l')
+				 {
+					 if (mrRobot->getcol() > 0)
+						 return true;
+				 }
+				 else if (direction = 'd')
+				 {
+					 if (mrRobot->getrow() < num_streets-1)
+						 return true;
+				 }
+				 else if (direction = 'u')
+				 {
+					 if (mrRobot->getrow() > 0)
+						 return true;
+				 }
+	}
 /******************************************************/
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
+				 //create graphics objects
 				 g = panel1->CreateGraphics();
 				 brackPen = gcnew System::Drawing::Pen(Color::Black);
 				 whitebrush = gcnew System::Drawing::SolidBrush(Color::White);
+				 redbrush = gcnew System::Drawing::SolidBrush(Color::Red);
 
+				 //declare the array
 				 grid = gcnew array<sugardaddy^, 2>(num_avenues, num_streets);
 
+				 //fill array with the grid
 				 for (row = 0; row < num_avenues; row++)
 					 for (col = 0; col < num_streets; col++)
 						 grid[row, col] = gcnew sugardaddy(row, col, true);
@@ -245,25 +311,120 @@ namespace Project1 {
 	}
 private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
 			 //g->DrawRectangle(brackPen, gridRect);
-			 g->DrawImage(Cells, 0, 0, 150, 150);
+			// g->DrawImage(Cells, 0, 0, 150, 150);
 }
 private: System::Void newGameToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 int x, y;
-
-			 //draws grid
-			 drawGrid();
 
 			 //determines location
 			 x = beeper_ave * cellSize();
 			 y = beeper_street * cellSize();
 
+			 //sets starting direction
+			 direction = 'r';
+
+			 mrRobot = gcnew carlrobot(robot_ave, robot_street);
+
+			 //draws the grid
+			 drawGrid();
+
 			 //where the beeper will be placed
 			 Rectangle BeepRect = Rectangle(x, y, cellSize(), cellSize());
-
 			 //draws the beeper at specified location
 			 g->DrawImage(Beeper, BeepRect);
-
+			 //makes the grid aware a beeper is at this location
 			 grid[beeper_ave, beeper_street]->setBeeper(true);
+
+			 //the robots location
+			 mrRobot->setrow(robot_ave);
+			 mrRobot->setcol(robot_street);
+			 x = robot_ave + cellSize();
+			 y = robot_street + cellSize();
+
+			 //what the robot will be drawn in
+			 Rectangle robotRect = Rectangle(x, y, cellSize(), cellSize());
+			 g->DrawImage(mrRobot->getimage(), robotRect);
+
+			 //begin le timer
+			 timer1->Start();
+			 play = true;
 }
+private: System::Void playPauseToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			 if (play)
+				 timer1->Stop();
+			 else
+				timer1->Start();		 
+}
+private: System::Void exitToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			 Application::Exit();
+}
+private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
+			 int x, y;
+			 int rows, cols;
+
+			 rows = mrRobot->getrow();
+			 cols = mrRobot->getcol();
+			 x = mrRobot->getcol() * cellSize();
+			 y = mrRobot->getrow() * cellSize();
+
+			 //records current robot position
+			 Rectangle nowrobot = Rectangle(x, y, cellSize(), cellSize());
+
+			 if (!isColliding())
+			 {
+				 g->FillRectangle(redbrush, nowrobot);
+				 g->DrawRectangle(brackPen, nowrobot);
+
+				 //move to the specified place
+				 switch (direction)
+				 {
+				 case 'r':
+					 mrRobot->goright();
+					 break;
+				 case 'l':
+					 mrRobot->goleft();
+					 break;
+				 case 'd':
+					 mrRobot->godown();
+					 break;
+				 case 'u':
+					 mrRobot->goup();
+					 break;
+				 }
+
+				 rows = mrRobot->getrow();
+				 cols = mrRobot->getcol();
+				 x = cols * cellSize();
+				 y = rows * cellSize();
+
+				 Rectangle robotRectv2 = Rectangle(x, y, cellSize(), cellSize());
+				 g->DrawImage(mrRobot->getimage(), robotRectv2);
+
+				 if (grid[rows, cols]->getBeeper())
+				 {
+					 grid[rows, cols]->setBeeper(false);
+					 timer1->Stop();
+					 MessageBox::Show("Radical bruh, you got da beeer.");
+				 }
+			 }
+			 else
+			 {
+				 switch (direction)
+				 {
+				 case 'r':
+					 direction = 'd';
+					 break;
+				 case 'l':
+					 direction = 'u';
+					 break;
+				 case 'u':
+					 direction = 'r';
+					 break;
+				 case 'd':
+					 direction = 'l';
+					 break;
+				 }
+			 }
+};
 };
 }

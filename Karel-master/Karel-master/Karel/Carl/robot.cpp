@@ -19,16 +19,20 @@ System::Drawing::Bitmap^ carlrobot::getimage()
 	{
 		return CarlRight;
 	}
-	if (direction == 1)
+	else if (direction == 1)
 	{
 		return CarlLeft;
 	}
-	if (direction == 2)
+	else if (direction == 2)
 	{
 		return CarlUp;
 	}
-	if (direction == 3)
+	else if (direction == 3)
 	{
 		return CarlDown;
+	}
+	else
+	{
+		System::Windows::Forms::MessageBox::Show("Please enter a valid direction");
 	}
 }

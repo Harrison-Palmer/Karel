@@ -8,6 +8,8 @@ public ref class sugardaddy{
 private:
 	int start;
 	int end;
+
+	/********/
 	int row; 
 	int col;
 	bool access;
@@ -18,10 +20,14 @@ public:
 	sugardaddy(int a, int b, bool c);
 
 	//getters
+	bool getAccess() { return access; }
+	int getRow() { return row; }
+	int getCol() { return col; }
+	bool getBeeper() { return hasBeeper; }
 
 	//setters
-	void setBeeper(bool beep);
-
+	void setBeeper(bool beep) { hasBeeper = true; }
+	void setAccess(bool a) { access = a; }
 
 	//possibly unneeded
 	int move();

@@ -8,10 +8,10 @@ private:
 	int col;
 	int direction;// 0 right 1 left 2 up 3 down
 
-	static System::Drawing::Bitmap^ CarlRight = gcnew System::Drawing::Bitmap("C:\\Users\\hpalmer\\Documents\\GitHub\\CS114\\Karel-master\\Karel-master\\Karel\\Gumbyright.jpg");
-	static System::Drawing::Bitmap^ CarlLeft = gcnew System::Drawing::Bitmap("C:\\Users\\hpalmer\\Documents\\GitHub\\CS114\\Karel-master\\Karel-master\\Karel\\Gumbyleft.jpg");
-	static System::Drawing::Bitmap^ CarlUp = gcnew System::Drawing::Bitmap("C:\\Users\\hpalmer\\Documents\\GitHub\\CS114\\Karel-master\\Karel-master\\Karel\\Gumbyup.jpg");
-	static System::Drawing::Bitmap^ CarlDown = gcnew System::Drawing::Bitmap("C:\\Users\\hpalmer\\Documents\\GitHub\\CS114\\Karel-master\\Karel-master\\Karel\\Gumbydown.jpg");
+	static System::Drawing::Bitmap^ CarlRight = gcnew System::Drawing::Bitmap("C:\\Users\\hpalmer\\Documents\\GitHub\\Karel\\Karel-master\\Karel-master\\Karel\\Gumbyright.jpg");
+	static System::Drawing::Bitmap^ CarlLeft = gcnew System::Drawing::Bitmap("C:\\Users\\hpalmer\\Documents\\GitHub\\Karel\\Karel-master\\Karel-master\\Karel\\Gumbyleft.jpg");
+	static System::Drawing::Bitmap^ CarlUp = gcnew System::Drawing::Bitmap("C:\\Users\\hpalmer\\Documents\\GitHub\\Karel\\Karel-master\\Karel-master\\Karel\\Gumbyup.jpg");
+	static System::Drawing::Bitmap^ CarlDown = gcnew System::Drawing::Bitmap("C:\\Users\\hpalmer\\Documents\\GitHub\\Karel\\Karel-master\\Karel-master\\Karel\\Gumbydown.jpg");
 
 public:
 	carlrobot(void){}
